@@ -1,0 +1,21 @@
+import os
+import py_compile
+
+# Get the file name from the environment variable
+py_file = os.environ.get('PYFILE')
+
+if py_file:
+    # Compile the Python script
+    try:
+        py_compile.compile(py_file, doraise=True)
+        print(f"Successfully compiled {py_file}")
+        
+        # Rename the compiled file to include 'c' suffix
+        compiled_file = py_file + 'c'
+        os.rename(py_file + 'c', compiled_file)
+        print(f"Compiled bytecode saved to {compiled_file}")
+        
+    except py_compile.PyCompileError as e:
+        print(f"Compilation failed: {e}")
+else:
+    print("Error: PYFILE environment variable not set")
